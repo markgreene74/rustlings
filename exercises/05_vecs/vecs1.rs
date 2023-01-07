@@ -7,11 +7,13 @@
 //
 // Execute `rustlings hint vecs1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
+// see https://doc.rust-lang.org/rust-by-example/std/vec.html
+//     https://doc.rust-lang.org/std/vec/struct.Vec.html
 
 fn array_and_vec() -> ([i32; 4], Vec<i32>) {
     let a = [10, 20, 30, 40]; // a plain array
-    let v = // TODO: declare your vector here with the macro for vectors
+    // let v = a.to_vec(); // TODO: declare your vector here with the macro for vectors
+    let v: Vec<i32> = Vec::from(a);
 
     (a, v)
 }
