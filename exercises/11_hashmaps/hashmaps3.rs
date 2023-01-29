@@ -15,8 +15,6 @@
 // Execute `rustlings hint hashmaps3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
-
 use std::collections::HashMap;
 
 // A structure to store the goal details of a team.
@@ -40,6 +38,38 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded by team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+
+        let teams: Vec<String> = vec![team_1_name, team_2_name];
+
+        for team in &teams {
+            // println!("{}", team);
+            let mut scored: u8 = 0;
+            let mut conceded: u8 = 0;
+            // println!("Scored: {}, Conceded: {}", scored, conceded);
+            // println!("T1 Scored: {}, Conceded: {}", team_1_score, team_2_score);
+            // println!("T2 Scored: {}, Conceded: {}", team_2_score, team_1_score);
+
+            let t1 = v[0]; // team1
+            let t2 = v[1]; // team2
+            if team == t1 {
+                // println!("found a match with team 1 {}", t1);
+                scored = team_1_score;
+                conceded = team_2_score;
+            } else {
+                // println!("found a match with team 2 {}", t2);
+                scored = team_2_score;
+                conceded = team_1_score;
+            };
+            // println!("Scored: {}, Conceded: {}", scored, conceded);
+
+            scores
+                .entry(team.to_string())
+                .and_modify(|v| {
+                    v.goals_scored += scored;
+                    v.goals_conceded += conceded;
+                })
+                .or_insert(Team {name: team.to_string(), goals_scored: scored, goals_conceded: conceded});
+        }
     }
     scores
 }
