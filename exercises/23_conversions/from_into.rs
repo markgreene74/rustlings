@@ -41,11 +41,40 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person. Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
-
 impl From<&str> for Person {
-    fn from(s: &str) -> Person {}
+    fn from(s: &str) -> Person {
+        if s.contains(",") {
+            // dbg!(s);
+            let name_age = match s.split(",").collect::<Vec<&str>>() {
+                name_age if name_age.len() == 2 => {
+                    // split name_age into two elements, take the first as
+                    // name and the second as age
+                    let (name, age) = (&name_age[0], &name_age[1]);
+                    // use the helper function (name_age_assigner) to
+                    // validate name, age and change the age type (&str -> usize)
+                    return name_age_assigner(name.trim(), age.trim())
+                },
+                _ => return Person::default(),
+            };
+        } else {
+            Person::default()
+        }
+    }
 }
+
+// small helper function, I really don't want to overcomplicate
+// the logic in the `else if` block in L58-67
+fn name_age_assigner(name: &str, age: &str) -> Person {
+    match (name, age) {
+        (name, age) if name.chars().all(|x| x.is_alphabetic()) &&
+                       name.len() > 0 &&
+                       age.chars().all(|x| x.is_numeric()) &&
+                       age.len() > 0 => (),
+        (_, _) => return Person::default(),
+    };
+    Person {name: name.to_string(), age: age.parse::<usize>().unwrap()}
+}
+
 
 fn main() {
     // Use the `from` function

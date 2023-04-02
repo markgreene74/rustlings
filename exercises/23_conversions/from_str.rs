@@ -9,6 +9,7 @@
 // Execute `rustlings hint from_str` or use the `hint` watch subcommand for a
 // hint.
 
+use std::num::IntErrorKind::InvalidDigit;
 use std::num::ParseIntError;
 use std::str::FromStr;
 
@@ -31,8 +32,6 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
-
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
 // 2. Split the given string on the commas present in it
@@ -48,6 +47,24 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.is_empty() {
+            Err(ParsePersonError::Empty)
+        } else {
+            let name_age = match s.split(",").collect::<Vec<&str>>() {
+                name_age if name_age.len() == 2 => {
+                    let (name, age) = (&name_age[0], &name_age[1]);
+                    match (name, age) {
+                        (name, age) if name.is_empty() => return Err(ParsePersonError::NoName),
+                        (_, _) => (),
+                    };
+                    return Ok(Person {
+                        name: name.to_string(),
+                        age: age.parse().map_err(ParsePersonError::ParseInt)?,
+                    });
+                }
+                _ => return Err(ParsePersonError::BadLen),
+            };
+        }
     }
 }
 
