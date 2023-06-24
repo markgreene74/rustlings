@@ -68,7 +68,7 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
                     v.goals_scored += scored;
                     v.goals_conceded += conceded;
                 })
-                .or_insert(Team {name: team.to_string(), goals_scored: scored, goals_conceded: conceded});
+                .or_insert(Team {goals_scored: scored, goals_conceded: conceded});
         }
     }
     scores
