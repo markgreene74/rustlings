@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4.1.1
     - uses: nixbuild/nix-quick-install-action@v25
     - run: nix build --version
-    - run: echo $PWD; rustc --version
+    - run: echo $PWD; ls; rustc --version
     - run: nix build --debug .#devShell
 
   nix-build-and-run-rustlings:
@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v4.1.1
     - uses: nixbuild/nix-quick-install-action@v25
     - run: nix build --version
-    - run: echo $PWD; rustc --version
+    - run: echo $PWD; ls; rustc --version
     - name: Build & Run
-      run: nix run --debug .#rustlings -- --help
+      run: nix run .#rustlings -- --help
 
