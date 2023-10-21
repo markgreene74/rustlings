@@ -1,0 +1,30 @@
+name: Verify nix environment
+
+on:
+  # On any push or PR
+  push:
+  # pull_request:
+  workflow_dispatch: # run the workflow manually
+                     # for testing purposes
+  
+
+jobs:
+  nix-dev-shell:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.1
+    - uses: nixbuild/nix-quick-install-action@v25
+    - run: nix build --version
+    - run: echo $PWD; rustc --version
+    - run: nix build --debug .#devShell
+
+  nix-build-and-run-rustlings:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.1
+    - uses: nixbuild/nix-quick-install-action@v25
+    - run: nix build --version
+    - run: echo $PWD; rustc --version
+    - name: Build & Run
+      run: nix run --debug .#rustlings -- --help
+
