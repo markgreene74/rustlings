@@ -7,28 +7,37 @@ on:
   
 
 jobs:
-  nix-dev-shell:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4.1.1
-    - uses: nixbuild/nix-quick-install-action@v25
-    - run: nix build --version
-    - run: rustlings --version && echo OK || echo KO # do not stop the workflow
-                                                     # if we get an error
-    - run: nix build .#rustlings-app
-    - run: rustlings --version && echo OK || echo KO # do not stop the workflow
-                                                     # if we get an error
+#  nix-dev-shell:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v4.1.1
+#    - uses: nixbuild/nix-quick-install-action@v25
+#    - run: nix build --version
+#    - run: nix build .#rustlings-app
 
-  nix-build-and-run-rustlings:
+#  nix-build-and-run-rustlings:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v4.1.1
+#    - uses: nixbuild/nix-quick-install-action@v25
+#    - run: nix build --version
+#    - name: Build & Run
+#      run: nix run .#rustlings -- --help
+
+  nix-flake-checks:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4.1.1
     - uses: nixbuild/nix-quick-install-action@v25
-    - run: nix build --version
-    - run: rustlings --version && echo OK || echo KO # do not stop the workflow
-                                                     # if we get an error
-    - name: Build & Run
-      run: nix run .#rustlings -- --help
-    - run: rustlings --version && echo OK || echo KO # do not stop the workflow
-                                                     # if we get an error
- 
+    - name: Build version
+      run: nix build --version
+    - name: Flake info
+      run: nix flake info
+    - name: Flake check 
+      run: nix flake check
+    - name: Flake info
+      run: nix flake info
+    - name: Flake metadata
+      run: nix flake metadata
+    - name: Flake show
+      run: nix flake show
