@@ -46,7 +46,7 @@ impl From<&str> for Person {
         if s.contains(",") {
             // dbg!(s);
             let name_age = match s.split(",").collect::<Vec<&str>>() {
-                name_age if name_age.len() == 2 || name_age.len() == 3 => {
+                name_age if name_age.len() == 2 => {
                     // split name_age into elements, take the first as
                     // name and the second as age
                     let (name, age) = (&name_age[0], &name_age[1]);
